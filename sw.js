@@ -3,7 +3,7 @@
  * version arrives as soon as you're online), cached copy when offline.
  * Files (scripts, styles, icons): cached copy first. Your data never passes
  * through here — it stays in the browser's own storage. */
-const CACHE = "bizdash-v1";
+const CACHE = "bizdash-v2";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./favicon.svg"];
 
 self.addEventListener("install", (e) => {
@@ -21,7 +21,7 @@ self.addEventListener("fetch", (e) => {
   if (url.origin !== self.location.origin) return;
   if (req.mode === "navigate") {
     e.respondWith(
-      fetch(req)
+      fetch(req, { cache: "no-store" })
         .then((res) => {
           const copy = res.clone();
           caches.open(CACHE).then((c) => c.put("./index.html", copy));

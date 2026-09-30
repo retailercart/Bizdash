@@ -10,6 +10,21 @@
     <meta name="apple-mobile-web-app-title" content="BizDash" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BizDash</title>
+    <script>
+      /* After an update, a browser may still hold the OLD page, which asks for
+         files that no longer exist, leaving a blank screen. If any of the
+         app's own files fails to load, reload once with a fresh page. */
+      (function () {
+        var K = "bd-reloaded";
+        function once() { try { if (sessionStorage.getItem(K)) return false; sessionStorage.setItem(K, "1"); } catch (e) {} return true; }
+        addEventListener("error", function (e) {
+          var t = e.target;
+          if (t && (t.tagName === "SCRIPT" || t.tagName === "LINK") && /\/index-|\/esm-/.test(t.src || t.href || "") && once())
+            location.replace(location.pathname + "?r=" + Date.now());
+        }, true);
+        addEventListener("load", function () { setTimeout(function () { try { sessionStorage.removeItem(K); } catch (e) {} }, 5000); });
+      })();
+    </script>
     <script type="module" crossorigin src="./index-CkrCl39t.js"></script>
     <link rel="stylesheet" crossorigin href="./index-BZ3PZ4jq.css">
   </head>
