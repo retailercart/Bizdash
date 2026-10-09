@@ -19,6 +19,9 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  // Settings → About's "is there a newer version?" check goes straight to
+  // the network and is never cached.
+  if (url.searchParams.has("__vcheck")) return;
   if (req.mode === "navigate") {
     e.respondWith(
       fetch(req, { cache: "no-store" })
